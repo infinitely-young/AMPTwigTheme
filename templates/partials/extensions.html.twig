@@ -84,13 +84,12 @@
 } %}
 
 {% for extension in extensions_enabled|default %}
-    {% if extension.name in supported_extensions|keys %}
-        {% set type = extension.name == 'amp-mustache' ? 'custom-template' : 'custom-element' %}
-        {% set version = extension.version is not defined ?
-            supported_extensions[extension.name] : extension.version %}
+    {% if extension in supported_extensions|keys %}
+        {% set type = extension == 'amp-mustache' ? 'custom-template' : 'custom-element' %}
+        {% set version = supported_extensions[extension.name] %}
 
         <script async
-                {{ type }}="{{ extension.name }}"
-                src="{{ 'https://cdn.ampproject.org/v0/' ~ extension.name ~ '-' ~ version ~ '.js' }}"></script>
+                {{ type }}="{{ extension }}"
+                src="{{ 'https://cdn.ampproject.org/v0/' ~ extension ~ '-' ~ version ~ '.js' }}"></script>
     {% endif %}
 {% endfor %}
